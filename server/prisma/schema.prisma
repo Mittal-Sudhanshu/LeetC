@@ -18,24 +18,67 @@ enum Role {
   ADMIN
 }
 
-model User {
-  id       String @id @default(cuid())
-  name     String
-  email    String @unique
-  username String @unique
-  password String
-  image    String
-  role     Role   @default(USER)
+enum TestCaseType {
+  Example
+  Hidden
+}
+
+model Tag {
+  id        String     @id @default(cuid())
+  name      String
   questions Question[]
 }
 
-model Question{
-  id         String @id @default(cuid())
+model User {
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  username    String       @unique
+  password    String
+  image       String?
+  role        Role         @default(USER)
+  questions   Question[]
+  submissions Submission[]
+}
+
+enum Difficulty {
+  Easy
+  Medium
+  Hard
+}
+
+model Question {
+  id          Int          @id @default(autoincrement())
   title       String
   description String
   userId      String
-  user User @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
+  difficulty  Difficulty
+  user        User         @relation(fields: [userId], references: [id])
+  createdAt   DateTime     @default(now())
+  submissions Submission[]
+  testCase    TestCase[]
+  tags        Tag[]
 }
 
+model Submission {
+  id         String   @id @default(cuid())
+  questionId Int
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id])
+  code       String
+  language   String
+  status     String
+  createdAt  DateTime @default(now())
+}
 
+model TestCase {
+  id          String       @id @default(cuid())
+  questionId  Int
+  question    Question     @relation(fields: [questionId], references: [id])
+  input       String
+  output      String
+  type        TestCaseType
+  explanation String?
+  createdAt   DateTime     @default(now())
+}
