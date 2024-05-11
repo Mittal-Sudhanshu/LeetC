@@ -7,6 +7,7 @@ import QuestionDetail from "./Questiondetails";
 import Dropdown from "./DropDown";
 import { Editor } from "@monaco-editor/react";
 import Loader from "@/app/(pages)/question/loading";
+import runCode from "@/app/submit";
 
 interface CodeState {
     [key: string]: string;
@@ -20,6 +21,7 @@ export default function Question() {
         cpp: '',
         python: '',
         java: '',
+        c: '',
         typescript: ''
     });
     const [loading, setLoading] = useState(true);
@@ -50,7 +52,9 @@ export default function Question() {
         return <Loader></Loader>
     return <div>
         <div className="flex gap-2 justify-center pb-1">
-            <button className="rounded-lg bg-green-200 px-4 py-1">
+            <button className="rounded-lg bg-green-200 px-4 py-1" onClick={() => {
+                runCode(code[selectedItem], selectedItem, question.testCase)
+            }}>
                 Run
             </button>
             <button className="rounded-lg bg-black text-white px-4 py-1">

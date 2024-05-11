@@ -39,6 +39,7 @@ export default function QuestionDetail({ question }: { question: any }) {
                 </div>
                 <div className=" hover:cursor-pointer" onClick={() => {
                     navigator.clipboard.writeText(question.testCase?.map((element: any) => {
+                        if(element.type==='Example')
                         return element.input;
                     }));
                 }}>
@@ -46,6 +47,7 @@ export default function QuestionDetail({ question }: { question: any }) {
                 </div>
             </div>
             {question.testCase?.map((testCase: any) => {
+                if(testCase.type==='Example')
                 return <div key={testCase?.id}>
 
                     <div>
@@ -64,6 +66,7 @@ export default function QuestionDetail({ question }: { question: any }) {
                 </div>
                 <div className="items-end flex justify-end hover:cursor-pointer" onClick={() => {
                     navigator.clipboard.writeText(question.testCase?.map((element: any) => {
+                        if(element.type==='Example')
                         return element.output;
                     }));
 
@@ -72,6 +75,7 @@ export default function QuestionDetail({ question }: { question: any }) {
                 </div>
             </div>
             {question.testCase?.map((testCase: any) => {
+                if(testCase.type==='Example')
                 return <div key={testCase?.id}>
 
                     <div>
