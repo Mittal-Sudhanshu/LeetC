@@ -17,4 +17,21 @@ const createTag = async (req: Request, res: Response) => {
         return res.status(500).json({ error: err })
     }
 };
-export { createTag };
+const getAllTags = async (req: Request, res: Response) => {
+
+    try {
+        const tags = await prisma.tag.findMany(
+            {
+                include: {
+                    questions: true,
+
+                }
+            }
+        );
+        return res.status(200).json(tags);
+    }
+    catch (err) {
+        return res.status(500).json({ error: err });
+    }
+}
+export { createTag,getAllTags };

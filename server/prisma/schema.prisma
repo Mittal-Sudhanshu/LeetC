@@ -48,16 +48,19 @@ enum Difficulty {
 }
 
 model Question {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String
-  userId      String
-  difficulty  Difficulty
-  user        User         @relation(fields: [userId], references: [id])
-  createdAt   DateTime     @default(now())
-  submissions Submission[]
-  testCase    TestCase[]
-  tags        Tag[]
+  id           Int          @id @default(autoincrement())
+  title        String
+  description  String
+  userId       String
+  difficulty   Difficulty
+  user         User         @relation(fields: [userId], references: [id])
+  createdAt    DateTime     @default(now())
+  inputFormat  String      
+  outputFormat String      
+  constraints  String @default("n<=10^5")
+  submissions  Submission[]
+  testCase     TestCase[]
+  tags         Tag[]
 }
 
 model Submission {
