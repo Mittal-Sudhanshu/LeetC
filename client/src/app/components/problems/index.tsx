@@ -17,7 +17,7 @@ export default async function ProblemsPage() {
     return <div>
         {
             problems.map((e: any) => {
-                return <QuestionCard title={e.title} difficulty={e.difficulty} id={e.id} tag={e.tag} ></QuestionCard>
+                return <QuestionCard key= {e.id} title={e.title} difficulty={e.difficulty} id={e.id} tag={e.tag} ></QuestionCard>
             })
         }
     </div>
