@@ -1,5 +1,5 @@
 "use client";
-import URLS from "@/constants/urls"
+import URLS, { BackendHeaders } from "@/constants/urls"
 import axios from "axios"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -29,7 +29,10 @@ export default function Question() {
     const [selectedItem, setSelectedItem] = useState<string>("cpp");
     async function getQuestion(id: string) {
         try {
-            const res = await axios.get(URLS.getQuestionById + id);
+            const res = await axios.get(URLS.getQuestionById + id,{ headers: {
+                ...BackendHeaders,
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
+            } });
             return res.data;
         }
         catch (e) {

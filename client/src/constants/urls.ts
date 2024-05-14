@@ -6,8 +6,14 @@ const URLS = {
     getTags: `${BackendUrl}/tag/`,
     getDiffCount: `${BackendUrl}/question/`,
     getRandomQuestions: `${BackendUrl}/question/random/`,
+    singup: `${BackendUrl}/user/signup/`,
+    login: `${BackendUrl}/user/login/`,
     // getTestCases: `${BackendUrl}/testCases/`,
 
+}
+export const BackendHeaders = {
+    'content-type': 'application/json',
+    
 }
 const JudgeMainUrl = process.env.NEXT_PUBLIC_JUDGE_API_URL;
 export const JUDGEURLS = {

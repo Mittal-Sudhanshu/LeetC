@@ -10,9 +10,9 @@ const User = z.object({
 });
 
 const LoginInterface = z.object({
-  email: z.string().email().optional(),
+  email: z.string(),
   password: z.string(),
-  username: z.string().optional(),
+
 });
 
 const UsernameInterface = z.object({

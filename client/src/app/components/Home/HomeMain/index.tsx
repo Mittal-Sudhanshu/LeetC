@@ -1,14 +1,18 @@
-// "use client";
+"use client";
 
 import axios from "axios";
 import QuestionCard from "../QuestionCard";
-import URLS from "@/constants/urls";
+import URLS, { BackendHeaders } from "@/constants/urls";
+import { useEffect, useState } from "react";
 // import { useRouter } from "next/navigation";
 
 
 async function getRandomQuestions() {
     try {
-        const res = await axios.get(URLS.getRandomQuestions);
+
+        const res = await axios.get(URLS.getRandomQuestions, {
+            headers: BackendHeaders
+        });
         return res.data;
     } catch (err) {
         console.error(err);
@@ -19,11 +23,16 @@ async function getRandomQuestions() {
 
 export default async function HomeMain() {
     // const router = useRouter();
-    const questions = await getRandomQuestions();
+    const [questions, setQuestion] = useState([]);
+    useEffect(() => {
+        getRandomQuestions().then((data) => {
+            setQuestion(data);
+        })
+    }, [])
     return <div className="p-4 m-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 ">
         {
-            questions.map((q:any)=>{
-                return QuestionCard({title:q.title,difficulty:q.difficulty,id:q.id,tag:q.tags[0]?.name});
+            questions.map((q: any) => {
+                return QuestionCard({ title: q.title, difficulty: q.difficulty, id: q.id, tag: q.tags[0]?.name });
             })
         }
     </div>

@@ -1,11 +1,14 @@
-"use server";
+"use client";
 
-import URLS from "@/constants/urls";
+import URLS, { BackendHeaders } from "@/constants/urls";
 import axios from "axios";
+import { useState, useEffect } from "react";
 
 async function getTags() {
     try {
-        const res = await axios.get(URLS.getTags);
+        const res = await axios.get(URLS.getTags, { headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        } });
         return res.data;
     }
     catch (err) {
@@ -25,8 +28,16 @@ async function getQuestionsByDifficulty() {
 }
 
 export default async function HomeDefaultSideBar() {
-    const tags = await getTags();
-    const diffQuestions = await getQuestionsByDifficulty();
+    const [tags,setTags ] = useState([]);
+    const [diffQuestions,setDiffQuestions] = useState([]);
+    useEffect(() => {
+        getTags().then((data) => {
+            setTags(data);
+        })
+        getQuestionsByDifficulty().then((data) => {
+            setDiffQuestions(data);
+        })
+    }, [])
     return <div >
         <div className="pt-2 px-2 font-bold text-xl hidden md:block">
             Categories

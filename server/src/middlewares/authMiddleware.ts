@@ -4,13 +4,14 @@ import { prisma } from "../db/config";
 
 const CheckLogin = async (req: Request, res: Response, next: Function) => {
     const header = req.headers.authorization;
+    // console.log(req.headers);
     if (!header || !header.startsWith("Bearer ")) {
         return res.status(401).json({ error: "Unauthorized" });
     }
     const token = header.split(" ")[1];
     const decodedUserId = verifyToken(token);
     req.body.currUserId = decodedUserId;
-    console.log(req.body.currUserId)
+    // console.log(req.body.currUserId)
     next();
 };
 

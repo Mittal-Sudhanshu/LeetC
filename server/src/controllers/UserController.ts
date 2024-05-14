@@ -14,8 +14,18 @@ const createUser = async (req: Request, res: Response) => {
         email: user.email,
       },
     });
+
     if (findUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User with this email already exists" });
+    }
+    const findUsername = await prisma.user.findUnique({
+      where: {
+        username: user.username,
+      },
+
+    })
+    if (findUsername) {
+      return res.status(400).json({ message: "Username already taken" });
     }
     const pass = await generateEncryptedPassword(user.password);
     user.password = pass;
@@ -32,18 +42,25 @@ const createUser = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     if (!LoginInterface.safeParse(req.body).success) {
-      return res.status(400).json({ error: User.safeParse(req.body).error });
+      return res.status(400).json({ error: LoginInterface.safeParse(req.body).error });
     }
     const user = LoginInterface.parse(req.body);
-    if (!user.email && !user.username) {
+    if (!user.email) {
       return res.status(400).json({ error: "Email or username is required" });
     }
-    const findUser = await prisma.user.findUnique({
+    const findUserByEmail = await prisma.user.findUnique({
       where: {
-        email: user.email!,
-        username: user.username!,
-      },
+        email: user.email
+      }
     });
+
+    const findUserByUsername = await prisma.user.findUnique({
+      where: {
+        username: user.email
+      }
+    });
+
+    const findUser = findUserByEmail || findUserByUsername;
     if (!findUser) {
       return res.status(400).json({ message: "User does not exist" });
     }

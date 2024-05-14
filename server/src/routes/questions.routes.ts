@@ -5,9 +5,9 @@ const router = express.Router();
 
 
 router.post('/create', CheckAdmin, createQuestion);
-router.route('/random').get(getRandomQuestions)
-router.get('/all', getAllQuestions);
-router.get('/:id', getQuestionById);
-router.route('/difficulty/:difficulty').get(getQuestionsByDifficulty)
-router.route('/').get(getDiffCount)
+router.route('/random').get(CheckLogin,getRandomQuestions)
+router.get('/all', CheckLogin,getAllQuestions);
+router.get('/:id', CheckLogin,getQuestionById);
+router.route('/difficulty/:difficulty').get(CheckLogin,getQuestionsByDifficulty)
+router.route('/').get(CheckLogin,getDiffCount)
 export default router;

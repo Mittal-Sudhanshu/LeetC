@@ -3,6 +3,7 @@ import { userRouter } from "./user.routes";
 import { router as tagRouter } from './tag.routes';
 import { router as testCaseRouter } from './testcases.routes';
 import questionRouter from './questions.routes';
+import { submissionRouter } from "./submission.routes";
 const router = express.Router();
 
 router.route("/").get((req, res) => {
@@ -13,4 +14,5 @@ router.use("/user", userRouter);
 router.use("/question", questionRouter);
 router.use("/tag", tagRouter);
 router.use("/testcase", testCaseRouter);
+router.use('/submission', submissionRouter);
 export { router };
